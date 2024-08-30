@@ -1,1 +1,13 @@
-User Show Page
+<h1>User Show Page</h1>
+
+<div>
+  <h2><%= @user.user_name %></h2>
+</div>
+
+<p>
+  <strong>Your Session ID:</strong>
+  <%= session[:user_id] %>
+</p>
+
+<%= button_to 'Sign Out', signout_path, method: :delete %>
+
