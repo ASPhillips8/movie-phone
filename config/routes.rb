@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   #
   # get "up" => "rails/health#show", as: :rails_health_check
 
- root 'welcome#home'
+  root 'welcome#home'
+  get '/signin', to: 'sessions#new'
+  post '/signin', to: 'sessions#create'
 
- resources :users, only: [:new, :create, :show]
+  resources :users, only: [:new, :create, :show]
 end
