@@ -1,12 +1,13 @@
 class UsersController < ApplicationController
   before_action :require_login, except: %i[new create]
+  before_action :correct_user, only: [:show]
 
   def new
     @user = User.new
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = find_user
   end
 
   def create
@@ -21,6 +22,10 @@ class UsersController < ApplicationController
 
 private
 
+  def find_user
+    User.find(params[:id])
+  end
+
   def user_params
     params.require(:user).permit(:first_name, :last_name, :age, :favorite_genre, :user_name, :password,
                                  :password_confirmation)
@@ -31,5 +36,13 @@ private
 
     flash[:alert] = "You must be logged in to access this section"
     redirect_to root_path
+  end
+
+  def correct_user
+    @user = find_user
+    return if @user == current_user
+
+    flash[:alert] = "You are not authorized to view this page."
+    redirect_to user_path(current_user)
   end
 end
