@@ -59,5 +59,14 @@ RSpec.describe User, type: :model do
       expect(association.options[:through]).to eq(:reviews)
     end
   end
+
+  context "methods" do
+    describe "#full_name" do
+      it "returns the user's full name" do
+        expect(user.full_name).to eq("Anthony Lumpenstein")
+      end
+    end
+  end
 end
+
 
