@@ -1,0 +1,55 @@
+<h1>Register</h1>
+
+<% if @user.errors.any? %>
+  <div>
+    <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+      <% @user.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @user, local: true do |form| %>
+  <div>
+    <%= form.label :first_name %>
+    <%= form.text_field :first_name %><br>
+  </div>
+
+   <div>
+    <%= form.label :last_name %>
+    <%= form.text_field :last_name %><br>
+  </div>
+
+   <div>
+    <%= form.label :age %>
+    <%= form.number_field :age %><br>
+  </div>
+
+   <div>
+    <%= form.label :favorite_genre, "Favorite Movie Genre" %>
+    <%= form.text_field :favorite_genre %><br>
+  </div>
+
+   <div>
+    <%= form.label :user_name %>
+    <%= form.text_field :user_name %><br>
+  </div>
+
+   <div>
+    <%= form.label :password %>
+    <%= form.password_field :password %><br>
+  </div>
+
+  <div>
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %><br>
+  </div>
+
+  <div>
+    <%= form.submit "Sign Up" %>
+  </div>
+<% end %>
+
+<%= link_to "Already Have An Account", signin_path %>

@@ -1,0 +1,27 @@
+<h1>Welcome <%= @user.user_name %> </h1>
+
+<div>
+  <h2><strong><%= @user.full_name %></strong></h2>
+  <h3>Favorite Movie Genre: <%= @user.favorite_genre %></h3>
+  <p><%= @user.age %> years old.</p>
+</div><br>
+
+<%= button_to 'Sign Out', signout_path, method: :delete %>
+
+<div>
+  <h3>Current Recommendations - </h3>
+  <!-- Add recommendations content here -->
+</div><br>
+
+<div>
+  <h3>Reviewed Movies:</h3>
+  <%# <% if @user.movies.any? %>
+    <ul>
+      <%# <% @user.movies.each do |movie| %>
+        <%# <li><%= movie.title %></li>
+      <%# <% end %>
+    </ul>
+  <%# <% else %>
+    <%# <p>Waiting for your first review.</p>
+  <% end %>
+</div>
