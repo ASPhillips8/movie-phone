@@ -1,0 +1,32 @@
+<h1>Sign In</h1>
+
+<% if @login_errors.present? %>
+  <div style="color: red; background-color: #f8d7da;">
+    <ul>
+      <% @login_errors.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with url: signin_path, method: :post, data: { turbo: false } do %>
+  <div>
+    <%= label_tag :user_name, "Enter User Name" %><br>
+    <%= text_field_tag :user_name %>
+  </div>
+
+  <div>
+    <%= label_tag :password, "Password" %><br>
+    <%= password_field_tag :password %>
+  </div>
+
+  <div>
+    <%= submit_tag "Sign In" %>
+  </div>
+<% end %>
+
+
+
+<h3>Dont Have an Account?</h3>
+<%= link_to "Sign Up", new_user_path %>
