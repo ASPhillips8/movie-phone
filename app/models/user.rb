@@ -6,4 +6,8 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :age, :favorite_genre, :user_name, presence: true
   validates :user_name, uniqueness: true
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end
