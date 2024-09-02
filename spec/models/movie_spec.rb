@@ -65,14 +65,20 @@ RSpec.describe Movie, type: :model do
 
   context "methods" do
     describe "#average_score" do
-      it "calculates the average score of the movie" do
-        user1 = User.create(first_name: "User1", last_name: "Test", user_name: "user1", password: "password")
-        user2 = User.create(first_name: "User2", last_name: "Test", user_name: "user2", password: "password")
-        movie.reviews.build(score: 5, user: user1)
-        movie.reviews.build(score: 3, user: user2)
-        expect(movie.average_score).to eq(4)
-      end
+    it "calculates the average score of the movie" do
+      movie.save!
+
+      user1 = User.create(first_name: "User1", last_name: "Test", user_name: "user1", password: "password")
+      user2 = User.create(first_name: "User2", last_name: "Test", user_name: "user2", password: "password")
+
+      movie.reviews.create!(score: 5, user: user1)
+      movie.reviews.create!(score: 3, user: user2)
+
+      expect(movie.average_score).to eq(4.0)
     end
+  end
+
+
 
     describe "#formatted_release_date" do
       it "returns the release date in the format 'November 22, 1995'" do
