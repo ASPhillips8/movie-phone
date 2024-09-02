@@ -1,10 +1,16 @@
 <h2>Write a Review for <%= @movie.title %></h2>
 
-<!-- Display the parameters passed to this page -->
-<h3>Debug Params:</h3>
-<pre><%= debug(params) %></pre>
+<% if @review.errors.any? %>
+  <div style="color: red; background-color: #f8d7da;">
+    <ul>
+      <% @review.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
-<%= form_with model: [@movie, @review], local: true do |f| %>
+<%= form_with model: [@movie, @review], local: true, data: { turbo: false } do |f| %>
   <div class="field">
     <%= f.label :score %><br>
     <%= f.number_field :score, min: 1, max: 10 %>
@@ -21,6 +27,7 @@
     <%= f.submit "Submit Review" %>
   </div>
 <% end %>
+
 
 <%= link_to 'Back to Movie', movie_path(@movie) %>
 
