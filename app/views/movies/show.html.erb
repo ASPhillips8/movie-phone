@@ -13,11 +13,23 @@
 </div>
 
 <h2>Reviews:</h2>
-  <%= link_to "Leave a review", new_movie_review_path(@movie) %><br>
+
+<% if @user_review %>
+  <h3>Your Review:</h3>
+  <div>
+    <strong><%= @user_review.score %> STARS:</strong>
+    <%= @user_review.comment.presence || "No comment provided" %>
+    <%= link_to 'Edit Review', edit_movie_review_path(@movie, @user_review) %>
+  </div>
+<% else %>
+  <%= link_to "Leave a review", new_movie_review_path(@movie) %>
+<% end %>
+
+
 <h3>Users rating: <%=@movie.average_score %> stars </h3>
 
 <ul>
-  <% @movie.reviews.each do |review| %>
+  <% @other_reviews.each do |review| %>
     <li>
       <strong><%= review.score %> STARS:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
     </li>

@@ -6,7 +6,7 @@ class Movie < ApplicationRecord
   validates :run_time, numericality: { only_integer: true, greater_than: 0 }
 
   def average_score
-    reviews.average(:score).to_f
+    reviews.average(:score).to_f.round(2)
   end
 
   def formatted_release_date
