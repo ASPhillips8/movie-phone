@@ -15,6 +15,19 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def edit
+    @review = set_review
+  end
+
+  def update
+    @review = set_review
+    if @review.update(review_params)
+      redirect_to movie_path(@movie)
+    else
+      render :edit
+    end
+  end
+
 private
 
   def set_movie
