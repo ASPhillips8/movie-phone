@@ -1,3 +1,8 @@
+<div>
+  <%= link_to 'Home', user_path(current_user) %>
+  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+</div>
+
 <h1><%= @movie.title %></h1>
 
 <div>
@@ -13,9 +18,7 @@
 <ul>
   <% @movie.reviews.each do |review| %>
     <li>
-      <strong><%= review.user.full_name %>:</strong> <%= review.comment %> - <em><%= review.score %> stars</em>
+      <strong><%= review.score %> STARS:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
     </li>
   <% end %>
 </ul>
-
-|<%= link_to 'Back to Movie Library', movies_path %>|
