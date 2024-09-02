@@ -13,6 +13,8 @@ Rails.application.routes.draw do
 
 
   resources :users, only: [:new, :create, :show]
-  resources :movies, only: [:index, :show]
+  resources :movies, only: [:index, :show] do
+    resources :reviews, only: [:new, :create, :edit, :update]
+  end
 
 end
