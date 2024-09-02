@@ -1,0 +1,16 @@
+<div>
+  <%= link_to 'Home', user_path(current_user) %>
+  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+</div>
+
+<h1>Movie Library</h1>
+
+<ul>
+  <% @movies.each do |movie| %>
+    <li>
+      <%= link_to movie.title, movie_path(movie) %>
+      - <%= movie.formatted_release_date %>
+    </li>
+  <% end %>
+</ul>
+

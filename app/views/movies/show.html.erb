@@ -1,0 +1,24 @@
+<div>
+  <%= link_to 'Home', user_path(current_user) %>
+  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+</div>
+
+<h1><%= @movie.title %></h1>
+
+<div>
+  <p><strong>Release Date:</strong> <%= @movie.formatted_release_date %></p>
+  <p><strong>Runtime:</strong> <%= @movie.run_time %> minutes</p>
+  <p><strong>Rating:</strong> <%= @movie.rating %></p>
+  <p><strong>Description:</strong> <%= @movie.description %></p>
+</div>
+
+<h2>Reviews:</h2>
+<h3>Users rating: <%=@movie.average_score %> stars </h3>
+
+<ul>
+  <% @movie.reviews.each do |review| %>
+    <li>
+      <strong><%= review.score %> STARS:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
+    </li>
+  <% end %>
+</ul>
