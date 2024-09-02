@@ -51,7 +51,7 @@ RSpec.describe Movie, type: :model do
       review1 = movie.reviews.build(score: 5, user: user1)
       review2 = movie.reviews.build(score: 4, user: user2)
 
-      expect(movie.users).to include(user1, user2)
+      expect(movie.users).to include(review1.user, review2.user)
     end
 
     it 'can have many genres' do
@@ -87,5 +87,3 @@ RSpec.describe Movie, type: :model do
     end
   end
 end
-
-
