@@ -31,13 +31,6 @@ private
                                  :password_confirmation)
   end
 
-  def require_login
-    return if current_user
-
-    flash[:alert] = "You must be logged in to access this section"
-    redirect_to root_path
-  end
-
   def correct_user
     @user = find_user
     return if @user == current_user

@@ -6,14 +6,7 @@ class MoviesController < ApplicationController
 
   def show
     @movie = Movie.find(params[:id])
-  end
-
-private
-
-  def require_login
-    return if current_user
-
-    flash[:alert] = "You must be logged in to access this section"
-    redirect_to root_path
+    @user_review = @movie.reviews.find_by(user: current_user)
+    @other_reviews = @movie.reviews.where.not(user: current_user)
   end
 end
