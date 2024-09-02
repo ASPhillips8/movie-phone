@@ -39,6 +39,6 @@ private
   end
 
   def review_params
-    params.require(:review).permit(:score, :comment, :movie_id, :user_id)
+    params.require(:review).permit(:score, :comment)
   end
 end
