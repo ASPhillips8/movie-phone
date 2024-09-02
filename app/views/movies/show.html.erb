@@ -1,0 +1,21 @@
+<h1><%= @movie.title %></h1>
+
+<div>
+  <p><strong>Release Date:</strong> <%= @movie.formatted_release_date %></p>
+  <p><strong>Runtime:</strong> <%= @movie.run_time %> minutes</p>
+  <p><strong>Rating:</strong> <%= @movie.rating %></p>
+  <p><strong>Description:</strong> <%= @movie.description %></p>
+</div>
+
+<h2>Reviews:</h2>
+<h3><%=@movie.average_score %> stars </h3>
+
+<ul>
+  <% @movie.reviews.each do |review| %>
+    <li>
+      <strong><%= review.user.full_name %>:</strong> <%= review.comment %> - <em><%= review.score %> stars</em>
+    </li>
+  <% end %>
+</ul>
+
+|<%= link_to 'Back to Movie Library', movies_path %>|
