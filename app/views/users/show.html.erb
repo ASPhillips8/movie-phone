@@ -1,4 +1,6 @@
-<h1>Welcome <%= @user.user_name %> </h1>
+  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+
+<h1>Welcome <%= @user.user_name %></h1>
 
 <div>
   <h2><strong><%= @user.full_name %></strong></h2>
@@ -6,22 +8,23 @@
   <p><%= @user.age %> years old.</p>
 </div><br>
 
-<%= button_to 'Sign Out', signout_path, method: :delete %>
-
 <div>
-  <h3>Current Recommendations - </h3>
+  <h3><%= link_to "Movies", movies_path %></h3>
+  <h3>Current Recommendations</h3>
   <!-- Add recommendations content here -->
 </div><br>
 
 <div>
   <h3>Reviewed Movies:</h3>
-  <%# <% if @user.movies.any? %>
+  <% if @user.reviews.any? %>
     <ul>
-      <%# <% @user.movies.each do |movie| %>
-        <%# <li><%= movie.title %></li>
-      <%# <% end %>
+      <% @user.reviews.each do |review| %>
+        <li>
+          <%= link_to review.movie.title, movie_path(review.movie) %> - <em><%= review.score %> stars</em>
+        </li>
+      <% end %>
     </ul>
-  <%# <% else %>
-    <%# <p>Waiting for your first review.</p>
+  <% else %>
+    <p>Waiting for your first review.</p>
   <% end %>
 </div>
