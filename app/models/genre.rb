@@ -3,4 +3,8 @@ class Genre < ApplicationRecord
   has_many :movies, through: :movie_genres
 
   validates :name, presence: true, uniqueness: true
+
+  def self.favorite_genre
+    order(popularity: :desc).first
+  end
 end
