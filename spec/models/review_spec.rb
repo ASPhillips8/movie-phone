@@ -1,36 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  let(:user) do
-    User.create(
-      first_name: "Anthony",
-      last_name: "Lumpenstein",
-      age: 35,
-      favorite_genre: "Horror",
-      user_name: "Lumpy3",
-      password: "password1",
-      password_confirmation: "password1"
-    )
-  end
-
-  let(:movie) do
-    Movie.create(
-      title: "Toy Story",
-      description: "A story about toys that come to life when humans aren't around.",
-      run_time: 81,
-      rating: "G",
-      release_date: "1995-11-22"
-    )
-  end
-
-  let(:review) do
-    Review.new(
-      score: 8,
-      comment: "Amazing movie!",
-      user: user,
-      movie: movie
-    )
-  end
+  let(:user) { create(:user) }
+  let(:movie) { create(:movie) }
+  let(:review) { build(:review, user: user, movie: movie) }
 
   context "validations" do
     it "is valid with all attributes present" do
