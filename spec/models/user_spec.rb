@@ -1,17 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) do
-    User.new(
-      first_name: "Anthony",
-      last_name: "Lumpenstein",
-      age: 35,
-      favorite_genre: "Horror",
-      user_name: "Lumpy3",
-      password: "password1",
-      password_confirmation: "password1"
-    )
-  end
+  let(:user) { build(:user) } # Use FactoryBot to build a user instance
 
   context "validations" do
     it "is valid with all attributes present" do
@@ -27,15 +17,7 @@ RSpec.describe User, type: :model do
     end
 
     it "is invalid with a duplicate user name" do
-      User.create(
-        first_name: "Another",
-        last_name: "User",
-        age: 25,
-        favorite_genre: "Comedy",
-        user_name: "Lumpy3",
-        password: "password2",
-        password_confirmation: "password2"
-      )
+      create(:user, user_name: "Lumpy3") # Create a user with a duplicate user_name
       expect(user).not_to be_valid
       expect(user.errors[:user_name]).to include("has already been taken")
     end
@@ -68,5 +50,3 @@ RSpec.describe User, type: :model do
     end
   end
 end
-
-

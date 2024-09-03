@@ -1,51 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Genre, type: :model do
-  let(:genre) { Genre.create(name: "Animation", popularity: 10) }
+  let(:genre) { create(:genre) }  # Use the factory to create a genre
 
-  let(:movie1) do
-    Movie.create(
-      title: "Toy Story",
-      description: "A story about toys that come to life when humans aren't around.",
-      run_time: 81,
-      rating: "G",
-      release_date: "1995-11-22"
-    )
-  end
-
-  let(:movie2) do
-    Movie.create(
-      title: "Finding Nemo",
-      description: "A clownfish sets out on a journey to find his son.",
-      run_time: 100,
-      rating: "G",
-      release_date: "2003-05-30"
-    )
-  end
-
-  let(:user1) do
-    User.create(
-      first_name: "Anthony",
-      last_name: "Lumpenstein",
-      age: 35,
-      favorite_genre: "Animation",
-      user_name: "Lumpy3",
-      password: "password1",
-      password_confirmation: "password1"
-    )
-  end
-
-  let(:user2) do
-    User.create(
-      first_name: "Sarah",
-      last_name: "Test",
-      age: 30,
-      favorite_genre: "Animation",
-      user_name: "SarahT",
-      password: "password2",
-      password_confirmation: "password2"
-    )
-  end
+  let(:movie1) { create(:movie, title: "Toy Story") }  # Create a movie with the factory
+  let(:movie2) { create(:movie, title: "Finding Nemo") }  # Create another movie with the factory
 
   context "validations" do
     it "is valid with a name and popularity" do
@@ -59,7 +18,7 @@ RSpec.describe Genre, type: :model do
     end
 
     it "has a default popularity of 0" do
-      new_genre = Genre.create(name: "Comedy")
+      new_genre = create(:genre, name: "Comedy")
       expect(new_genre.popularity).to eq(0)
     end
   end
@@ -69,35 +28,47 @@ RSpec.describe Genre, type: :model do
       genre.movies << [movie1, movie2]
       expect(genre.movies).to include(movie1, movie2)
     end
-
-    it "can have many users who favor this genre" do
-      expect(user1.favorite_genre).to eq("Animation")
-      expect(user2.favorite_genre).to eq("Animation")
-    end
   end
 
   context "methods" do
-    describe ".favorite_genre" do
-      it "returns the most popular genre based on user selections" do
-        action = Genre.create(name: "Action")
-        horror = Genre.create(name: "Horror")
-        crime = Genre.create(name: "Crime")
+    describe ".favorite_movie_genre" do
+      it "returns the genre with the most users who selected it as their favorite" do
+        action = create(:genre, name: "Action")
+        horror = create(:genre, name: "Horror")
+        drama = create(:genre, name: "Drama")
 
-        User.create(first_name: "John", last_name: "Doe", age: 30, favorite_genre: "Action", user_name: "john_doe", password: "password")
-        User.create(first_name: "Jane", last_name: "Doe", age: 25, favorite_genre: "Action", user_name: "jane_doe", password: "password")
-        User.create(first_name: "Jack", last_name: "Smith", age: 28, favorite_genre: "Action", user_name: "jack_smith", password: "password")
-        User.create(first_name: "Jill", last_name: "Smith", age: 27, favorite_genre: "Horror", user_name: "jill_smith", password: "password")
-        User.create(first_name: "Jake", last_name: "Johnson", age: 32, favorite_genre: "Crime", user_name: "jake_johnson", password: "password")
+        create(:user, favorite_genre: "Action", user_name: "john_doe")
+        create(:user, favorite_genre: "Action", user_name: "jane_doe")
+        create(:user, favorite_genre: "Action", user_name: "jack_smith")
+        create(:user, favorite_genre: "Horror", user_name: "jill_smith")
+        create(:user, favorite_genre: "Drama", user_name: "drama_lover")
 
-        expect(Genre.favorite_genre).to eq(action)
+        expect(Genre.favorite_movie_genre).to eq(action)
       end
     end
 
     describe "#update_genre_popularity_for_movie" do
-      it "increases the popularity of the genre when a movie is reviewed" do
-        genre.movies << movie1
-        Review.create(score: 5, comment: "Great movie!", movie: movie1, user: user1)
-        expect(genre.reload.popularity).to eq(11)
+      it "increases the popularity of the associated genres when a movie is reviewed" do
+        action = create(:genre, name: "Action", popularity: 0)
+        crime = create(:genre, name: "Crime", popularity: 0)
+        movie1 = create(:movie, title: "Movie 1")
+        movie2 = create(:movie, title: "Movie 2")
+
+        movie1.genres << action
+        movie2.genres << [action, crime]
+
+        user1 = create(:user, user_name: "user1")
+        user2 = create(:user, user_name: "user2")
+
+        create(:review, score: 5, comment: "Great action movie!", movie: movie1, user: user1)
+        create(:review, score: 4, comment: "Thrilling crime drama!", movie: movie2, user: user1)
+        create(:review, score: 3, comment: "Good movie!", movie: movie2, user: user2)
+
+        action.reload
+        crime.reload
+
+        expect(action.popularity).to eq(3)
+        expect(crime.popularity).to eq(2)
       end
     end
   end

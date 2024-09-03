@@ -1,15 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Movie, type: :model do
-  let(:movie) do
-    described_class.new(
-      title: "Toy Story",
-      description: "A story about toys that come to life when humans aren't around.",
-      run_time: 81,
-      rating: "G",
-      release_date: "1995-11-22"
-    )
-  end
+  let(:movie) { create(:movie) }
 
   context "validations" do
     it "is valid with all attributes present" do
@@ -39,27 +31,24 @@ RSpec.describe Movie, type: :model do
 
   describe 'associations' do
     it 'can have many reviews' do
-      movie.save!
 
-      review1 = movie.reviews.create!(score: 5, comment: 'Amazing movie!', user: User.create(first_name: "User1", last_name: "Test", user_name: "user1", password: "password", age: 25, favorite_genre: "Animation"))
-      review2 = movie.reviews.create!(score: 4, comment: 'Really enjoyed it', user: User.create(first_name: "User2", last_name: "Test", user_name: "user2", password: "password", age: 30, favorite_genre: "Comedy"))
+      review1 = create(:review, movie: movie, user: create(:user, user_name: "user1"))
+      review2 = create(:review, movie: movie, user: create(:user, user_name: "user2"))
 
       expect(movie.reviews).to include(review1, review2)
     end
 
     it 'can have many users through reviews' do
-      movie.save!
 
-      user1 = User.create(first_name: "User1", last_name: "Test", user_name: "user1", password: "password", age: 25, favorite_genre: "Animation")
-      user2 = User.create(first_name: "User2", last_name: "Test", user_name: "user2", password: "password", age: 30, favorite_genre: "Comedy")
-      review1 = movie.reviews.create!(score: 5, user: user1)
-      review2 = movie.reviews.create!(score: 4, user: user2)
+      user1 = create(:user, user_name: "user1")
+      user2 = create(:user, user_name: "user2")
+      create(:review, movie: movie, user: user1)
+      create(:review, movie: movie, user: user2)
 
       expect(movie.users).to include(user1, user2)
     end
 
     it 'can have many genres' do
-      movie.save!
 
       genre1 = Genre.create(name: 'Animation')
       genre2 = Genre.create(name: 'Family')
@@ -72,13 +61,8 @@ RSpec.describe Movie, type: :model do
   context "methods" do
     describe "#average_score" do
       it "calculates the average score of the movie" do
-        movie.save!
-
-        user1 = User.create(first_name: "User1", last_name: "Test", user_name: "user1", password: "password", age: 25, favorite_genre: "Animation")
-        user2 = User.create(first_name: "User2", last_name: "Test", user_name: "user2", password: "password", age: 30, favorite_genre: "Comedy")
-
-        Review.create!(score: 5, user: user1, movie: movie)
-        Review.create!(score: 3, user: user2, movie: movie)
+        create(:review, score: 5, movie: movie, user: create(:user, user_name: "user1"))
+        create(:review, score: 3, movie: movie, user: create(:user, user_name: "user2"))
 
         expect(movie.average_score).to eq(4.0)
       end
@@ -86,6 +70,7 @@ RSpec.describe Movie, type: :model do
 
     describe "#formatted_release_date" do
       it "returns the release date in the format 'November 22, 1995'" do
+        movie.update(release_date: "1995-11-22")
         expect(movie.formatted_release_date).to eq("November 22, 1995")
       end
     end
