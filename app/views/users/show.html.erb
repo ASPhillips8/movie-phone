@@ -9,10 +9,20 @@
 </div><br>
 
 <div>
-  <h3><%= link_to "Movies", movies_path %></h3>
-  <h3>Current Recommendations</h3>
-  <!-- Add recommendations content here -->
-</div><br>
+  <h4><%= link_to "Movies", movies_path %></h4>
+  <h2>-Current Recommendations-</h2>
+    <h3>Highest Rated:</h3>
+    <div>
+      <h4><%= link_to @recommended_movie.title, movie_path(@recommended_movie) %></h4>
+      <p>Average Score: &#9733; <%= @recommended_movie.average_score %></p>
+      <p>Release Date: <%= @recommended_movie.formatted_release_date %></p>
+    </div><br>
+    <h3>Favorite Movie Genre: <%= @user.favorite_genre %></h3>
+    <div>
+      <h4><%= link_to  @genre_recommended_movie.title, movie_path(@genre_recommended_movie) %></h4>
+      <p>Average Score: &#9733; <%=  @genre_recommended_movie.average_score %></p>
+      <p>Release Date: <%=  @genre_recommended_movie.formatted_release_date %></p>
+    </div>
 
 <div>
   <h3>Reviewed Movies:</h3>
@@ -20,7 +30,7 @@
     <ul>
       <% @user.reviews.each do |review| %>
         <li>
-          <%= link_to review.movie.title, movie_path(review.movie) %> - <em><%= review.score %> stars</em>
+          <%= link_to review.movie.title, movie_path(review.movie) %> - &#9733 <em><%= review.score %> stars</em>
         </li>
       <% end %>
     </ul>
