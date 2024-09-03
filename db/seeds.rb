@@ -7,17 +7,27 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
 require "faker"
 
+# Destroy previous data to avoid duplicates
 User.destroy_all
 Movie.destroy_all
+Genre.destroy_all
+MovieGenre.destroy_all
 Review.destroy_all
 
+# Define movie genres
 movie_genres = %w[
   Action Comedy Drama Horror Romance Sci-Fi Thriller Fantasy
   Documentary Adventure Animation Mystery
 ]
+
+# Create genres
+movie_genres.each do |genre|
+  Genre.create!(name: genre)
+end
+
+puts "#{movie_genres.count} genres created"
 
 # Create five fake users
 5.times do
@@ -34,18 +44,22 @@ end
 
 puts "5 fake users created"
 
-# Create 10 fake movies
+# Create 10 fake movies and assign random genres to each
 10.times do
-  Movie.create!(
+  movie = Movie.create!(
     title: Faker::Movie.title,
     description: Faker::Lorem.paragraph(sentence_count: 5),
-    run_time: Faker::Number.between(from: 60, to: 180), # Adjusted runtime to be between 60 and 180 minutes
+    run_time: Faker::Number.between(from: 60, to: 180),
     rating: %w[G PG PG-13 R].sample,
     release_date: Faker::Date.between(from: "1980-01-01", to: Date.today)
   )
+
+  # Assign 1 to 3 random genres to each movie
+  genres = Genre.all.sample(rand(1..3))
+  movie.genres << genres
 end
 
-puts "10 fake movies created"
+puts "10 fake movies created with genres"
 
 # Create reviews for each movie ensuring one review per user per movie
 Movie.all.each do |movie|
@@ -54,7 +68,7 @@ Movie.all.each do |movie|
 
   users.each do |user|
     Review.create!(
-      score: Faker::Number.between(from: 0, to: 10), # Adjusted score to be between 0 and 10
+      score: Faker::Number.between(from: 0, to: 10),
       comment: Faker::Lorem.sentence(word_count: 10),
       user: user,
       movie: movie
