@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @genres = Genre.pluck(:name)
   end
 
   def show
@@ -12,6 +13,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @genres = Genre.pluck(:name)
     if @user.save
       session[:user_id] = @user.id
       redirect_to @user, notice: "Successfully signed up!"
