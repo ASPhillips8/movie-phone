@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
   def show
     @user = find_user
+    @recommended_movie = Movie.highest_rated_unreviewed_by(@user).first
+    @genre_recommended_movie = Movie.unreviewed_movie_of_favorite_genre(@user).first
   end
 
   def create
