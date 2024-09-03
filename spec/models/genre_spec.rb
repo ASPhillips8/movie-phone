@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Genre, type: :model do
-  let(:genre) { Genre.create(name: "Animation", popularity_score: 10) }
+  let(:genre) { Genre.create(name: "Animation", popularity: 10) }
 
   let(:movie1) do
     Movie.create(
@@ -48,7 +48,7 @@ RSpec.describe Genre, type: :model do
   end
 
   context "validations" do
-    it "is valid with a name and popularity_score" do
+    it "is valid with a name and popularity" do
       expect(genre).to be_valid
     end
 
@@ -58,9 +58,9 @@ RSpec.describe Genre, type: :model do
       expect(genre.errors[:name]).to include("can't be blank")
     end
 
-    it "has a default popularity_score of 0" do
+    it "has a default popularity of 0" do
       new_genre = Genre.create(name: "Comedy")
-      expect(new_genre.popularity_score).to eq(0)
+      expect(new_genre.popularity).to eq(0)
     end
   end
 
@@ -77,20 +77,29 @@ RSpec.describe Genre, type: :model do
   end
 
   context "methods" do
-    describe "#favorite_genre" do
-      it "returns the most popular genre" do
-        # Assuming favorite_genre method logic in Genre model
-        genre.movies << [movie1, movie2]
-        favorite_genre = Genre.favorite_genre
-        expect(favorite_genre).to eq(genre)
+    describe ".favorite_genre" do
+      it "returns the most popular genre based on user selections" do
+        action = Genre.create(name: "Action")
+        horror = Genre.create(name: "Horror")
+        crime = Genre.create(name: "Crime")
+
+        User.create(first_name: "John", last_name: "Doe", age: 30, favorite_genre: "Action", user_name: "john_doe", password: "password")
+        User.create(first_name: "Jane", last_name: "Doe", age: 25, favorite_genre: "Action", user_name: "jane_doe", password: "password")
+        User.create(first_name: "Jack", last_name: "Smith", age: 28, favorite_genre: "Action", user_name: "jack_smith", password: "password")
+        User.create(first_name: "Jill", last_name: "Smith", age: 27, favorite_genre: "Horror", user_name: "jill_smith", password: "password")
+        User.create(first_name: "Jake", last_name: "Johnson", age: 32, favorite_genre: "Crime", user_name: "jake_johnson", password: "password")
+
+        expect(Genre.favorite_genre).to eq(action)
       end
     end
 
-    describe "#update_popularity_score" do
-      it "updates the popularity score based on user interactions" do
-        genre.update_popularity_score(5)
-        expect(genre.popularity_score).to eq(15)
+    describe "#update_genre_popularity_for_movie" do
+      it "increases the popularity of the genre when a movie is reviewed" do
+        genre.movies << movie1
+        Review.create(score: 5, comment: "Great movie!", movie: movie1, user: user1)
+        expect(genre.reload.popularity).to eq(11)
       end
     end
   end
 end
+
