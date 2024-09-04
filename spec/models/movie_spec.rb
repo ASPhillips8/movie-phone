@@ -31,15 +31,14 @@ RSpec.describe Movie, type: :model do
 
   describe 'associations' do
     it 'can have many reviews' do
-
-      review1 = create(:review, movie: movie, user: create(:user, user_name: "user1"))
+      movie = create(:movie)
+      review1 = create(:review, movie: movie)
       review2 = create(:review, movie: movie, user: create(:user, user_name: "user2"))
 
       expect(movie.reviews).to include(review1, review2)
     end
 
     it 'can have many users through reviews' do
-
       user1 = create(:user, user_name: "user1")
       user2 = create(:user, user_name: "user2")
       create(:review, movie: movie, user: user1)
