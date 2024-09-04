@@ -1,8 +1,12 @@
 <h1>Sign In</h1>
 
-<% if flash[:alert] %>
+<% if @login_errors.present? %>
   <div style="color: red; background-color: #f8d7da;">
-    <p><%= flash[:alert] %></p>
+    <ul>
+      <% @login_errors.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
 
