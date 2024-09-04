@@ -1,4 +1,4 @@
-  <%= link_to 'Sign Out', signout_path, method: "delete" %>
+<%= link_to 'Sign Out', signout_path, method: "delete" %>
 
 <h1>Welcome <%= @user.user_name %></h1>
 
@@ -11,18 +11,29 @@
 <div>
   <h4><%= link_to "Movies", movies_path %></h4>
   <h2>-Current Recommendations-</h2>
-    <h3>Highest Rated:</h3>
+
+  <h3>Highest Rated:</h3>
+  <% if @recommended_movie.present? %>
     <div>
       <h4><%= link_to @recommended_movie.title, movie_path(@recommended_movie) %></h4>
       <p>Average Score: &#9733; <%= @recommended_movie.average_score %></p>
       <p>Release Date: <%= @recommended_movie.formatted_release_date %></p>
     </div><br>
-    <h3>Favorite Movie Genre: <%= @user.favorite_genre %></h3>
+  <% else %>
+    <p>No movie to recommend at this time.</p>
+  <% end %>
+
+  <h3>Favorite Movie Genre: <%= @user.favorite_genre %></h3>
+  <% if @genre_recommended_movie.present? %>
     <div>
-      <h4><%= link_to  @genre_recommended_movie.title, movie_path(@genre_recommended_movie) %></h4>
-      <p>Average Score: &#9733; <%=  @genre_recommended_movie.average_score %></p>
-      <p>Release Date: <%=  @genre_recommended_movie.formatted_release_date %></p>
+      <h4><%= link_to @genre_recommended_movie.title, movie_path(@genre_recommended_movie) %></h4>
+      <p>Average Score: &#9733; <%= @genre_recommended_movie.average_score %></p>
+      <p>Release Date: <%= @genre_recommended_movie.formatted_release_date %></p>
     </div>
+  <% else %>
+    <p>No more movies in the <%= @user.favorite_genre %> genre.</p>
+  <% end %>
+</div>
 
 <div>
   <h3>Reviewed Movies:</h3>
