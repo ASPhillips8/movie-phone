@@ -2,6 +2,7 @@ class MoviesController < ApplicationController
   before_action :require_login, only: %i[index show]
   def index
     @movies = Movie.all
+    @genres = Genre.all
   end
 
   def show
