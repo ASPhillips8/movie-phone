@@ -2,7 +2,7 @@ class MoviesController < ApplicationController
   before_action :require_login, only: %i[index show]
   def index
     @genres = Genre.all
-    @movies = Movie.search_by_title(params[:query])
+    @movies = Movie.search_and_filter(params[:query], params[:genre])
   end
 
   def show
