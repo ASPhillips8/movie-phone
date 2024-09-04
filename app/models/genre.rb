@@ -4,7 +4,7 @@ class Genre < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  def self.favorite_genre
+  def self.favorite_movie_genre
     order(popularity: :desc).first
   end
 end

@@ -30,6 +30,12 @@ RSpec.describe Review, type: :model do
       expect(review).not_to be_valid
       expect(review.errors[:score]).to include("must be greater than or equal to 0")
     end
+
+    it 'is invalid if user has already reviewed the movie' do
+      create(:review, user: user, movie: movie)
+      duplicate_review = build(:review, user: user, movie: movie)
+      expect(duplicate_review).not_to be_valid
+    end
   end
 
   context "associations" do

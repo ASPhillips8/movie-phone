@@ -1,6 +1,6 @@
 <div>
   <%= link_to 'Home', user_path(current_user) %>
-  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+  <%= link_to 'Sign Out', signout_path, method: "delete" %>
 </div>
 
 <h1>Movie Library</h1>

@@ -4,13 +4,13 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(user_name: params[:user_name])
-    if user && user.authenticate(params[:password])
+
+    if user&.authenticate(params[:password])
       session[:user_id] = user.id
       redirect_to user_path(user)
     else
-      @login_errors = ["Invalid name or password"]
-      Rails.logger.debug "Login Errors: #{@login_errors.inspect}"
-      render :new
+      @login_errors = ["Invalid user name or password"]
+      render :new, status: 422
     end
   end
 
