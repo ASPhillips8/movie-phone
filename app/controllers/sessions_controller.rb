@@ -9,8 +9,8 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       redirect_to user_path(user)
     else
-      flash[:alert] = "Invalid user name or password"
-      redirect_to signin_path
+      @login_errors = ["Invalid user name or password"]
+      render :new, status: 422
     end
   end
 
