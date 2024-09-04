@@ -19,7 +19,6 @@ class Movie < ApplicationRecord
     joins(:genres)
       .where(genres: { name: user.favorite_genre })
       .where.not(id: user.reviews.select(:movie_id))
-      .limit(1)
   }
 
   def average_score
