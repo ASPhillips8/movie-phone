@@ -1,14 +1,15 @@
 <div>
   <%= link_to 'Home', user_path(current_user) %>
-  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+  <%= link_to 'Sign Out', signout_path, method: "delete" %>
 </div>
 
 <h1><%= @movie.title %></h1>
 
-<p><% @movie.genres.each do |genre| %>
-     | <%= genre.name %> |
-   <% end %>
-</p>
+<div>
+  <% @movie.genres.each do |genre| %>
+    | <%= genre.name %> |
+  <% end %>
+</div>
 
 <div>
   <p><strong>Release Date:</strong> <%= @movie.formatted_release_date %></p>
@@ -31,12 +32,12 @@
 <% end %>
 
 
-<h3>Users rating: <%=@movie.average_score %> stars </h3>
+<h3>Users rating: <%=@movie.average_score %>  &#9733 </h3>
 
 <ul>
   <% @other_reviews.each do |review| %>
     <li>
-      <strong><%= review.score %> STARS:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
+      <strong><%= review.score %>  &#9733:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
     </li>
   <% end %>
 </ul>

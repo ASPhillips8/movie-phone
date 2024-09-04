@@ -1,4 +1,4 @@
-  <%= link_to 'Sign Out', signout_path, class: 'button-link', data: { turbo_method: :delete } %>
+  <%= link_to 'Sign Out', signout_path, method: "delete" %>
 
 <h1>Welcome <%= @user.user_name %></h1>
 
