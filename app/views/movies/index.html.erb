@@ -9,7 +9,7 @@
   <h3>Filter movies:</h3>
   <%= form_with(url: movies_path, method: "get", local: true) do %>
     <%= text_field_tag :query, params[:query], placeholder: "Search by title" %>
-    <%= select_tag "genre", options_from_collection_for_select(@genres, "id", "name", params[:genre]), include_blank: "Select Genre" %>
+    <%= select_tag "genre_id", options_from_collection_for_select(@genres, "id", "name", params[:genre_id]), include_blank: "Select Genre" %>
     <%= submit_tag "Search" %>
   <% end %>
 </div>
