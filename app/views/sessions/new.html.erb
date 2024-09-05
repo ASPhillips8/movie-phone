@@ -1,29 +1,27 @@
 <h1>Sign In</h1>
 
-<% if @login_errors.present? %>
+<% if flash[:alert] %>
   <div style="color: red; background-color: #f8d7da;">
     <ul>
-      <% @login_errors.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
+      <li><%= flash[:alert] %></li>
     </ul>
   </div>
 <% end %>
 
-<%= form_with url: signin_path, method: :post, local: true do %>
+<%= form_with url: signin_path, method: :post, local: true do |f| %>
   <div>
-    <%= label_tag :user_name, "Enter User Name" %><br>
-    <%= text_field_tag :user_name %>
+    <%= f.label :user_name, "Enter User Name" %><br>
+    <%= f.text_field :user_name %>
   </div>
 
   <div>
-    <%= label_tag :password, "Password" %><br>
-    <%= password_field_tag :password %>
+    <%= f.label :password, "Password" %><br>
+    <%= f.password_field :password %>
   </div>
 
   <div>
-    <%= submit_tag "Sign In" %>
+    <%= f.submit "Sign In" %>
   </div>
 <% end %>
 
-<%= link_to "Dont Have an Account?", new_user_path %>
+<%= link_to "Don't Have an Account?", new_user_path %>

@@ -30,7 +30,7 @@ end
 puts "#{movie_genres.count} genres created"
 
 # Create five fake users
-5.times do
+15.times do
   User.create!(
     first_name: Faker::Name.first_name,
     last_name: Faker::Name.last_name,
@@ -42,10 +42,10 @@ puts "#{movie_genres.count} genres created"
   )
 end
 
-puts "5 fake users created"
+puts "15 fake users created"
 
 # Create 10 fake movies and assign random genres to each
-10.times do
+30.times do
   movie = Movie.create!(
     title: Faker::Movie.title,
     description: Faker::Lorem.paragraph(sentence_count: 5),
@@ -59,7 +59,7 @@ puts "5 fake users created"
   movie.genres << genres
 end
 
-puts "10 fake movies created with genres"
+puts "30 fake movies created with genres"
 
 # Create reviews for each movie ensuring one review per user per movie
 Movie.all.each do |movie|

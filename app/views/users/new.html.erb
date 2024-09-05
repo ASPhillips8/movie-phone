@@ -1,14 +1,6 @@
 <h1>Register</h1>
 
-<% if @user.errors.any? %>
-  <div style="color: red; background-color: #f8d7da;">
-    <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
+<%= render 'layouts/form_errors', form_error_object: @user %>
 
 <%= form_with model: @user, local: true do |form| %>
   <div>

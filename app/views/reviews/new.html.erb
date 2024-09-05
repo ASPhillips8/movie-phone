@@ -1,33 +1,4 @@
 <h2>Write a Review for <%= @movie.title %></h2>
 
-<% if @review.errors.any? %>
-  <div style="color: red; background-color: #f8d7da;">
-    <ul>
-      <% @review.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
-<%= form_with model: [@movie, @review], local: true do |f| %>
-  <div class="field">
-    <%= f.label :score %><br>
-    <%= f.number_field :score, min: 1, max: 10 %>
-  </div>
-
-  <div class="field">
-    <%= f.label :comment %><br>
-    <%= f.text_area :comment %>
-  </div>
-
-  <%= f.hidden_field :movie_id, value: @movie.id %>
-
-  <div class="actions">
-    <%= f.submit "Submit Review" %>
-  </div>
-<% end %>
-
-
-<%= link_to 'Back to Movie', movie_path(@movie) %>
-
+<%= render 'layouts/form_errors', form_error_object: @review %>
+<%= render 'form', movie: @movie, review: @review, submit_button_text:"Submit Review" %>
