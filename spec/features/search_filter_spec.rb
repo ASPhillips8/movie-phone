@@ -46,7 +46,7 @@ RSpec.describe "Movie search and filter" do
 
     context "when filtering by genre" do
       it "displays movies from the selected genre" do
-        select "Animation", from: "genre"
+        select "Animation", from: "genre_id"
         click_button "Search"
 
         expect(page).to have_content("Funny Animation")
@@ -58,7 +58,7 @@ RSpec.describe "Movie search and filter" do
     context "when filtering by both title and genre" do
       it "displays movies that match both criteria" do
         fill_in "Search by title", with: "Comedy"
-        select "Animation", from: "genre"
+        select "Animation", from: "genre_id"
         click_button "Search"
 
         expect(page).to have_content("Comedy Animation")

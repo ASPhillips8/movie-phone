@@ -24,6 +24,7 @@ RSpec.describe User, type: :model do
 
     it "is invalid if password confirmation doesn't match" do
       user.password_confirmation = "different_password"
+
       expect(user).not_to be_valid
       expect(user.errors[:password_confirmation]).to include("doesn't match Password")
     end
@@ -32,11 +33,13 @@ RSpec.describe User, type: :model do
   context "associations" do
     it "should have many reviews" do
       association = User.reflect_on_association(:reviews)
+
       expect(association.macro).to eq(:has_many)
     end
 
     it "should have many movies through reviews" do
       association = User.reflect_on_association(:movies)
+
       expect(association.macro).to eq(:has_many)
       expect(association.options[:through]).to eq(:reviews)
     end
@@ -59,6 +62,7 @@ RSpec.describe User, type: :model do
         r_movie = create(:movie, rating: "R")
 
         movie_age = user.age_based_movies
+
         expect(movie_age).to include(g_movie, pg_movie)
         expect(movie_age).not_to include(pg13_movie, r_movie)
       end
@@ -71,6 +75,7 @@ RSpec.describe User, type: :model do
         r_movie = create(:movie, rating: "R")
 
         movie_age = user.age_based_movies
+
         expect(movie_age).to include(g_movie, pg_movie, pg13_movie)
         expect(movie_age).not_to include(r_movie)
 
@@ -84,6 +89,7 @@ RSpec.describe User, type: :model do
         r_movie = create(:movie, rating: "R")
 
         movie_age = user.age_based_movies
+
         expect(movie_age).to include(g_movie, pg13_movie, pg_movie, r_movie)
       end
     end

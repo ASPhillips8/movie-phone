@@ -73,6 +73,101 @@ RSpec.describe Movie, type: :model do
         expect(movie.formatted_release_date).to eq("November 22, 1995")
       end
     end
+
+    describe ".search" do
+      it "returns movies that match the query" do
+        movie1 = create(:movie, title: "City Watch")
+        movie2 = create(:movie, title: "City Slickers")
+        movie3 = create(:movie, title: "The Terminator")
+
+        result = Movie.search("City")
+
+        expect(result).to include(movie1, movie2)
+        expect(result).not_to include(movie3)
+      end
+
+      it "returns movies that partially match the query" do
+        movie1 = create(:movie, title: "City Watch")
+        movie2 = create(:movie, title: "City Slickers")
+        movie3 = create(:movie, title: "The Terminator")
+
+        result = Movie.search("Term")
+
+        expect(result).to include(movie3)
+      end
+
+      it "returns all the movies whey query is not present" do
+        movie1 = create(:movie, title: "City Watch")
+        movie2 = create(:movie, title: "City Slickers")
+        movie3 = create(:movie, title: "The Terminator")
+
+        result = Movie.search(nil)
+
+        expect(result).to include(movie1, movie2, movie3)
+      end
+    end
+
+    describe ".filter_by_genre" do
+      let!(:genre1) { create(:genre, name: "Action") }
+      let!(:genre2) { create(:genre, name: "Comedy") }
+
+      let!(:movie1) { create(:movie, title: "City Watch", genres: [genre1]) }
+      let!(:movie2) { create(:movie, title: "City Slickers", genres: [genre2]) }
+      let!(:movie3) { create(:movie, title: "The Terminator", genres: [genre1]) }
+
+      context "when genre is present" do
+        it "returns movies that match the selected genre" do
+          result = Movie.filter_by_genre(genre1.id)
+
+          expect(result).to include(movie1, movie3)
+          expect(result).not_to include(movie2)
+        end
+      end
+
+      context "when genre is not present" do
+        it "returns all movies" do
+          result = Movie.filter_by_genre(nil)
+
+          expect(result).to include(movie1, movie2, movie3)
+        end
+      end
+    end
+
+    describe ".search_and_filter" do
+      let!(:genre1) { create(:genre, name: "Action") }
+      let!(:genre2) { create(:genre, name: "Comedy") }
+
+      let!(:movie1) { create(:movie, title: "City Watch", genres: [genre1]) }
+      let!(:movie2) { create(:movie, title: "City Slickers", genres: [genre2]) }
+      let!(:movie3) { create(:movie, title: "The Terminator", genres: [genre1]) }
+
+      it "returns movies that match the query and selected genre" do
+        result = Movie.search_and_filter(query: "City", genre_id: genre1.id)
+
+        expect(result).to include(movie1)
+        expect(result).not_to include(movie2, movie3)
+      end
+
+      it "returns all movies when query is empty and genre is not present" do
+        result = Movie.search_and_filter(query: nil, genre_id: nil)
+
+        expect(result).to include(movie1, movie2, movie3)
+      end
+
+      it "returns movies that match only the genre if no query is given" do
+        result = Movie.search_and_filter(query: nil, genre_id: genre1.id)
+
+        expect(result).to include(movie1, movie3)
+        expect(result).not_to include(movie2)
+      end
+
+      it "returns movies that match only the query if no genre is given" do
+        result = Movie.search_and_filter(query: "City", genre_id: nil)
+
+        expect(result).to include(movie1, movie2)
+        expect(result).not_to include(movie3)
+      end
+    end
   end
 
   context "scopes" do
