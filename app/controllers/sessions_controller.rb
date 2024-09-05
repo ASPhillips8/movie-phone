@@ -6,10 +6,10 @@ class SessionsController < ApplicationController
     user = User.find_by(user_name: params[:user_name])
 
     if user&.authenticate(params[:password])
-      session[:user_id] = user.id
+      log_in(user)
       redirect_to user_path(user)
     else
-      @login_errors = ["Invalid user name or password"]
+      flash.now[:alert] = "Invalid user name or password"
       render :new, status: 422
     end
   end
@@ -17,6 +17,12 @@ class SessionsController < ApplicationController
   def destroy
     session.delete :user_id
     redirect_to signin_path, notice: "Logged out successfully!"
+  end
+
+private
+
+  def log_in(user)
+    session[:user_id] = user.id
   end
 
   def redirect_if_logged_in
