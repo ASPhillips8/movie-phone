@@ -1,5 +1,7 @@
 <h1>Register</h1>
 
+<%= render 'layouts/form_errors', form_error_object: @user %>
+
 <% if @user.errors.any? %>
   <div style="color: red; background-color: #f8d7da;">
     <ul>

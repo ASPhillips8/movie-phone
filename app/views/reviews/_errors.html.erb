@@ -1,9 +1,0 @@
-<% if form_error_object.errors.any? %>
-  <div style="color: red; background-color: #f8d7da;">
-    <ul>
-      <% form_error_object.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>

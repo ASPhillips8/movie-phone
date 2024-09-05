@@ -1,4 +1,4 @@
 <h2>Write a Review for <%= @movie.title %></h2>
 
-<%= render 'errors', form_error_object: @review %>
+<%= render 'layouts/form_errors', form_error_object: @review %>
 <%= render 'form', movie: @movie, review: @review, submit_button_text:"Submit Review" %>

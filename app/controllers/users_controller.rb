@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to @user, notice: "Successfully signed up!"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: 422
     end
   end
 
