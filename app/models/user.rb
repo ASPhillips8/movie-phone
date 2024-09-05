@@ -10,4 +10,15 @@ class User < ApplicationRecord
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def age_based_movies
+    case age
+    when 0..12
+      Movie.where(rating: %w[G PG])
+    when 13..16
+      Movie.where(rating: %w[G PG PG-13])
+    else
+      Movie.all
+    end
+  end
 end
