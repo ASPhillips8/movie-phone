@@ -2,16 +2,6 @@
 
 <%= render 'layouts/form_errors', form_error_object: @user %>
 
-<% if @user.errors.any? %>
-  <div style="color: red; background-color: #f8d7da;">
-    <ul>
-      <% @user.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-    </ul>
-  </div>
-<% end %>
-
 <%= form_with model: @user, local: true do |form| %>
   <div>
     <%= form.label :first_name %>
