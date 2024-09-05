@@ -9,8 +9,9 @@ class UsersController < ApplicationController
 
   def show
     @user = find_user
-    @recommended_movie = Movie.highest_rated_unreviewed_by(@user).first
-    @genre_recommended_movie = Movie.unreviewed_movie_of_favorite_genre(@user).first
+    age_appropriate_movies = age_appropriate_recommendations
+    @recommended_movie = age_appropriate_movies.highest_rated_unreviewed_by(@user).first
+    @genre_recommended_movie = age_appropriate_movies.unreviewed_movie_of_favorite_genre(@user).first
   end
 
   def create
@@ -28,6 +29,10 @@ private
 
   def find_user
     User.find(params[:id])
+  end
+
+  def age_appropriate_recommendations
+    @user.age_based_movies
   end
 
   def user_params

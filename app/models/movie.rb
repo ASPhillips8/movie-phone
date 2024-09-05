@@ -21,6 +21,22 @@ class Movie < ApplicationRecord
       .where.not(id: user.reviews.select(:movie_id))
   }
 
+  def self.search_and_filter(query:, genre_id:)
+    search(query).filter_by_genre(genre_id)
+  end
+
+  def self.search(query)
+    return all unless query.present?
+
+    where("title LIKE ?", "%#{query}%")
+  end
+
+  def self.filter_by_genre(genre_id)
+    return all unless genre_id.present?
+
+    joins(:genres).where(genres: { id: genre_id })
+  end
+
   def average_score
     reviews.average(:score).to_f.round(2)
   end

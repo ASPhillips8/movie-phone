@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Genre, type: :model do
-  let(:genre) { create(:genre) }  # Use the factory to create a genre
+  let(:genre) { create(:genre) }
 
-  let(:movie1) { create(:movie, title: "Toy Story") }  # Create a movie with the factory
-  let(:movie2) { create(:movie, title: "Finding Nemo") }  # Create another movie with the factory
+  let(:movie1) { create(:movie, title: "Toy Story") }
+  let(:movie2) { create(:movie, title: "Finding Nemo") }
 
   context "validations" do
     it "is valid with a name and popularity" do
