@@ -21,9 +21,9 @@ class Movie < ApplicationRecord
       .where.not(id: user.reviews.select(:movie_id))
   }
 
-  scope :search_and_filter, ->(query, genre_id) {
+  def self.search_and_filter(query:, genre_id:)
     search(query).filter_by_genre(genre_id)
-  }
+  end
 
   def self.search(query)
     return all unless query.present?
