@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
   def index
     @genres = Genre.all
     @movies = age_filtered_movies
-    @movies = @movies.search_and_filter(params[:query], params[:genre])
+    @movies = @movies.search_and_filter(query: params[:query], genre_id: params[:genre_id])
   end
 
   def show
