@@ -20,7 +20,7 @@
 
    <div>
     <%= form.label :favorite_genre, "Favorite Movie Genre" %>
-    <%= form.select :favorite_genre, options_for_select(@genres, selected: nil), { prompt: "Select your favorite genre" } %><br>
+    <%= form.select :favorite_genre, options_for_select(@genres, selected: @user.favorite_genre), { prompt: "Select your favorite genre" } %><br>
   </div>
 
    <div>
