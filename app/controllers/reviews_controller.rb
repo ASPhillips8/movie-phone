@@ -6,8 +6,8 @@ class ReviewsController < ApplicationController
   end
 
   def create
-    @review = @movie.reviews.build(review_params)
-    @review.user = current_user
+    @review = @movie.reviews.build(user: current_user, **review_params)
+    # @review.user = current_user
     if @review.save
       redirect_to movie_path(@movie)
     else
