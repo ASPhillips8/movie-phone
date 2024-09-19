@@ -31,13 +31,4 @@
   <%= link_to "Leave a review", new_movie_review_path(@movie) %>
 <% end %>
 
-
-<h3>Users rating: <%=@movie.average_score %>  &#9733 </h3>
-
-<ul>
-  <% @other_reviews.each do |review| %>
-    <li>
-      <strong><%= review.score %>  &#9733:</strong> <%= review.comment %> - <em><%= review.user.user_name %></em>
-    </li>
-  <% end %>
-</ul>
+<%= render OtherReviewsComponent.new(reviews: @other_reviews, movie: @movie) %>

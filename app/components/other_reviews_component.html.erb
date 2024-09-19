@@ -1,0 +1,8 @@
+<h3>Users rating: <%= @movie.average_score %> &#9733;</h3>
+<ul>
+  <% @reviews.each do |review| %>
+    <li>
+      <strong><%= review.score %> &#9733;</strong>: <%= review.comment %> - <em><%= review.user.user_name %></em>
+    </li>
+  <% end %>
+</ul>
